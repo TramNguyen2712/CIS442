@@ -1,0 +1,86 @@
+select product_category, product_description,
+ max(decode( month,'JAN', gross , 0 )) AS gross_Jan,
+ max(decode( month,'JAN', gross , 0 )) AS return_Jan,
+ max(decode( month,'JAN', gross , 0 )) AS net_Jan,
+ max(decode( month,'FEB', return , 0 )) AS gross_Feb,
+ max(decode( month,'FEB', return , 0 )) AS return_Feb,
+ max(decode( month,'FEB', return , 0 )) AS net_Feb,
+ max(decode( month,'MAR', total , 0 )) AS gross_Mar,
+ max(decode( month,'MAR', total , 0 )) AS return_Mar,
+ max(decode( month,'MAR', total , 0 )) AS net_Mar,
+ max(decode( month,'APR', gross , 0 )) AS gross_Apr,
+ max(decode( month,'APR', gross , 0 )) AS return_Apr,
+ max(decode( month,'APR', gross , 0 )) AS net_Apr,
+ max(decode( month,'MAY', return , 0 )) AS gross_May,
+ max(decode( month,'MAY', return , 0 )) AS return_May,
+ max(decode( month,'MAY', return , 0 )) AS net_May,
+ max(decode( month,'JUN', total , 0 )) AS gross_Jun,
+ max(decode( month,'JUN', total , 0 )) AS return_Jun,
+ max(decode( month,'JUN', total , 0 )) AS net_Jun,
+ max(decode( month,'JUL', gross , 0 )) AS gross_Jul,
+ max(decode( month,'JUL', gross , 0 )) AS return_Jul,
+ max(decode( month,'JUL', gross , 0 )) AS net_Jul,
+ max(decode( month,'AUG', return , 0 )) AS gross_Aug,
+ max(decode( month,'AUG', return , 0 )) AS return_Aug,
+ max(decode( month,'AUG', return , 0 )) AS net_Aug,
+ max(decode( month,'SEP', total , 0 )) AS gross_Sep,
+ max(decode( month,'SEP', total , 0 )) AS return_Sep,
+ max(decode( month,'SEP', total , 0 )) AS net_Sep,
+ max(decode( month,'OCT', gross , 0 )) AS gross_Oct,
+ max(decode( month,'OCT', gross , 0 )) AS return_Oct,
+ max(decode( month,'OCT', gross , 0 )) AS net_Oct,
+ max(decode( month,'NOV', return , 0 )) AS gross_Nov,
+ max(decode( month,'NOV', return , 0 )) AS return_Nov,
+ max(decode( month,'NOV', return , 0 )) AS net_Nov,
+ max(decode( month,'DEC', total , 0 )) AS gross_Dec,
+ max(decode( month,'DEC', total , 0 )) AS return_Dec,
+ max(decode( month,'DEC', total , 0 )) AS net_Dec,
+ sum(total) as total
+from 	(select trim('-' from substr(order_date,3,4)) as month, product_category, product_description, 
+            sum((qty * unit_price) + tax + shipping) as gross, 
+            NVL(sum(retr_qty * unit_price), 0) as return, 
+            sum(shipping) as shipping, 
+            sum(tax) as tax, 
+            sum((unit_price * net_qty) + tax + shipping) as total
+    from	(select order_date, product_category, product_description, 
+                (qty - NVL(retr_qty, 0)) net_qty, 
+                    qty, 
+                retr_qty, unit_price, shipping, tax
+            from	(
+                select 	order_date, 
+                    product_category, 
+                    product_description, 
+                    orderline_no, 
+                    qty, 
+                    unit_price, 
+                    NVL(shipping_charge, 0) as shipping, 
+                    NVL(tax_amt, 0) as tax
+            from orders o, orderline ol, product p
+            where o.order_no = ol.order_no
+            AND ol.product_no = p.product_no
+            ) base 
+            FULL JOIN 
+            (select ol.orderline_no, sum(retr_qty) as retr_qty
+            from orderline ol, returnprod rp
+            where ol.orderline_no = rp.orderline_no
+            group by ol.orderline_no, qty) return
+            on 	base.orderline_no = return.orderline_no
+            order by base.orderline_no)
+            group by trim('-' from substr(order_date,3,4)), product_category, product_description
+      )
+group by product_category, product_description
+order by total desc;
+
+/*
+PRODUCT_CATEGOR PRODUCT_DESCRIPTION                                 GROSS_JAN RETURN_JAN    NET_JAN  GROSS_FEB RETURN_FEB    NET_FEB  GROSS_MAR RETURN_MAR    NET_MAR  GROSS_APR RETURN_APR    NET_APR  GROSS_MAY RETURN_MAY    NET_MAY  GROSS_JUN RETURN_JUN    NET_JUN  GROSS_JUL RETURN_JUL    NET_JUL  GROSS_AUG RETURN_AUG    NET_AUG  GROSS_SEP RETURN_SEP    NET_SEP  GROSS_OCT RETURN_OCT    NET_OCT  GROSS_NOV RETURN_NOV    NET_NOV  GROSS_DEC RETURN_DEC    NET_DEC      TOTAL
+--------------- -------------------------------------------------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
+Entertainment   42 inch Plasma TV                                    14381101   14381101   14381101     701750     701750     701750   14885830   14885830   14885830   15125149   15125149   15125149     670295     670295     670295   53318425   53318425   53318425    1353640    1353640    1353640     622860     622860     622860   29816394   29816394   29816394   13812069   13812069   13812069          0          0          0   14616385   14616385   14616385  227353823
+Game            Xbox,2 controller, 1 Mario game,2 memory cards         731700     731700     731700      31200      31200      31200     599607     599607     599607    1479426    1479426    1479426      61600      61600      61600    2595974    2595974    2595974     400224     400224     400224      16000      16000      16000    1320497    1320497    1320497     593910     593910     593910       4400       4400       4400     970805     970805     970805   12331493
+Game            Xbox                                                   574466     574466     574466      10200      10200      10200     416870     416870     416870     700464     700464     700464      93200      93200      93200    1006160    1006160    1006160     219720     219720     219720      10000      10000      10000     474797     474797     474797     255159     255159     255159       2600       2600       2600     323225     323225     323225    5364115
+Software        Office Professional Edition 2003                       198305     198305     198305      14375      14375      14375     249179     249179     249179     197532     197532     197532       6875       6875       6875     663600     663600     663600      33100      33100      33100        125        125        125     400957     400957     400957     198749     198749     198749          0          0          0      78850      78850      78850    2916057
+Game            Xbox controller                                        143363     143363     143363       3795       3795       3795     153178     153178     153178     435592     435592     435592       6655       6655       6655     376190     376190     376190      52967      52967      52967       6160       6160       6160     242982     242982     242982     110650     110650     110650       1595       1595       1595     184320     184320     184320    2353907
+Game            Xbox Memeory Card                                      120912     120912     120912       6200       6200       6200     144955     144955     144955     258112     258112     258112       3600       3600       3600     345470     345470     345470      31900      31900      31900       4700       4700       4700     239007     239007     239007      99262      99262      99262        750        750        750     159920     159920     159920    2073066
+Software        Windows XP Professional Edition                        112825     112825     112825       8025       8025       8025     119482     119482     119482     245787     245787     245787       6300       6300       6300     407260     407260     407260      32578      32578      32578       5400       5400       5400     278307     278307     278307     110005     110005     110005          0          0          0      61575      61575      61575    1976904
+Hardware        Optical Desktop with Fingerprint Reader                776734     776734     776734       4000       4000       4000      77170      77170      77170      83207      83207      83207       6750       6750       6750     297650     297650     297650      17550      17550      17550          0          0          0     158940     158940     158940      70859      70859      70859       1150       1150       1150      60350      60350      60350    1827630
+Game            Mario Game for Xbox                                    111850     111850     111850       4700       4700       4700     128500     128500     128500     138200     138200     138200       2450       2450       2450     331347     331347     331347      29470      29470      29470       4750       4750       4750     219507     219507     219507     115445     115445     115445          0          0          0     156175     156175     156175    1800144
+*/

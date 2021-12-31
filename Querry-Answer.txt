@@ -1,0 +1,130 @@
+/*1.	How many tables each database has?*/
+SELECT Database_ID,COUNT(Table_ID) AS Number_of_Tables
+FROM DG_Tables
+GROUP BY Database_ID
+
+/*
+Database_ID	Number_of_Tables
+1	76
+2	3
+3	9
+8	8
+*/
+
+/*2.	For every table in your newly added database, identify number of tables, 
+number of attributes, number of PK_ attributes, number of FK_ attributes, 
+number of NN_attributes, number of IDX_attributes, number of CC_attributes, 
+number of UQ_attributes, and number of PGM_attributes?*/
+SELECT T.Database_ID, COUNT(A.Table_id) as number_of_tables, COUNT(A.Attributes_ID) as number_of_attributes, COUNT(PK.PK_ID) as number_of_pk,
+COUnt(FK.Attributes_ID) as number_of_fk, COUNT(NN.NN_ID) as number_of_nn, COUNT(CC.CC_ID) as number_of_cc, COUNT(IDX.IDX_ID) as number_of_idx,
+COUNT(PGM.PGM_ID) as number_of_pgm
+FROM DG_Tables T FULL JOIN DG_Attributes A ON T.Table_ID = A.Table_id
+FULL JOIN DG_Attributes_PK PK ON PK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_FK FK on FK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_ConstCheck CC on CC.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_Index IDX on IDX.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_Program PGM on PGM.Attributes_ID = A.Attributes_ID
+WHERE T.Database_ID = 8  
+GROUP BY T.Database_ID
+
+/*
+Database_ID	number_of_tables	number_of_attributes	number_of_pk	number_of_fk	number_of_nn	number_of_cc	number_of_idx	number_of_pgm
+8	30	30	9	7	24	5	13	1
+*/
+
+/*3.	For every table in your newly added database, list the following: 
+Table_ID, Table_Name, attribute_id, attribute_Name, PK_ID, FK_ID, 
+NN_IDconstraint_type, and constraint_Name*/
+SELECT T.Database_ID, T.Table_id , A.Attributes_ID, A.Attributes_Name,PK.PK_ID, PK.Constraint_name,
+FK.FK_ID, FK.Constraint_name, NN.NN_ID, NN.Constraint_name
+FROM DG_Tables T FULL JOIN DG_Attributes A ON T.Table_ID = A.Table_id
+FULL JOIN DG_Attributes_PK PK ON PK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_FK FK on FK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+WHERE T.Database_ID = 8  
+
+/*
+Database_ID	Table_id	Attributes_ID	Attributes_Name	PK_ID	Constraint_name	FK_ID	Constraint_name	NN_ID	Constraint_name
+8	DGT00179	DGA_ID_1196	PRODUCT_CATEGORY_ID	DGC_PK_ID_183	PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_PK	NULL	NULL	DGC_NN_ID_303	PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_NN
+8	DGT00179	DGA_ID_1197	PRODUCT_CATEGORY_DESC	NULL	NULL	NULL	NULL	DGC_NN_ID_304	PRODUCT_CATEGORY_PRODUCT_CATEGORY_DESC_NN
+8	DGT00180	DGA_ID_1198	ORDER_ID	DGC_PK_ID_184	ORDERS_ORDER_ID_PK	NULL	NULL	DGC_NN_ID_305	ORDERS_ORDER_ID_NN
+8	DGT00180	DGA_ID_1199	ENO	NULL	NULL	DGC_FK_ID_134	ORDERS_ENO_FK	DGC_NN_ID_306	ORDERS_ENO_NN
+8	DGT00180	DGA_ID_1200	CNO	NULL	NULL	DGC_FK_ID_135	ORDERS_CNO_FK	DGC_NN_ID_307	ORDERS_CNO_NN
+8	DGT00181	DGA_ID_1203	EMPLOYEE_JOB_TITLE_ID	DGC_PK_ID_185	EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_PK	NULL	NULL	DGC_NN_ID_308	EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_NN
+8	DGT00182	DGA_ID_1205	ENO	DGC_PK_ID_186	EMPLOYEE_ENO_PK	NULL	NULL	DGC_NN_ID_309	EMPLOYEE_ENO_NN
+8	DGT00182	DGA_ID_1206	EMP_LNAME	NULL	NULL	NULL	NULL	DGC_NN_ID_310	EMPLOYEE_EMP_LNAME_NN
+8	DGT00182	DGA_ID_1208	EMP_JOB_TITLE_ID	NULL	NULL	DGC_FK_ID_136	EMPLOYEE_EMP_JOB_TITLE_ID_FK	DGC_NN_ID_311	EMPLOYEE_EMP_JOB_TITLE_ID_NN
+8	DGT00182	DGA_ID_1209	EMP_SEX	NULL	NULL	NULL	NULL	DGC_NN_ID_312	EMPLOYEE_EMP_SEX_NN
+8	DGT00182	DGA_ID_1211	EMP_STATUS_ID	NULL	NULL	DGC_FK_ID_137	EMPLOYEE_EMP_STATUS_ID_FK	DGC_NN_ID_313	EMPLOYEE_EMP_STATUS_ID_NN
+8	DGT00183	DGA_ID_1212	PNO	DGC_PK_ID_187	ORDER_LINE_PNO_PK	DGC_FK_ID_138	ORDER_LINE_PNO_FK	DGC_NN_ID_314	ORDER_LINE_PNO_NN
+8	DGT00183	DGA_ID_1213	ORDER_ID	DGC_PK_ID_188	ORDER_LINE_ORDER_ID_PK	DGC_FK_ID_9001	ORDER_LINE_ORDER_ID_FK	DGC_NN_ID_315	ORDER_LINE_ORDER_ID_NN
+8	DGT00183	DGA_ID_1214	ORDER_QTY	NULL	NULL	NULL	NULL	DGC_NN_ID_316	ORDER_LINE_ORDER_QTY_NN
+8	DGT00184	DGA_ID_1215	PNO	DGC_PK_ID_189	PRODUCT_PNO_PK	NULL	NULL	DGC_NN_ID_317	PRODUCT_PNO_NN
+8	DGT00184	DGA_ID_1216	PRODUCT_CATEGORY_ID	NULL	NULL	DGC_FK_ID_9002	PRODUCT_PRODUCT_CATEGORY_ID_FK	DGC_NN_ID_318	PRODUCT_PRODUCT_CATEGORY_ID_NN
+8	DGT00184	DGA_ID_1217	PROD_NAME	NULL	NULL	NULL	NULL	DGC_NN_ID_319	PRODUCT_PROD_NAME_NN
+8	DGT00184	DGA_ID_1218	UNIT_PRICE	NULL	NULL	NULL	NULL	DGC_NN_ID_320	PRODUCT_UNIT_PRICE_NN
+8	DGT00184	DGA_ID_1219	UNIT_COST	NULL	NULL	NULL	NULL	DGC_NN_ID_321	PRODUCT_UNIT_COST_NN
+8	DGT00185	DGA_ID_1220	EMPLOYEE_STATUS_ID	DGC_PK_ID_190	EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_PK	NULL	NULL	DGC_NN_ID_322	EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_NN
+8	DGT00185	DGA_ID_1221	EMPLOYEE_SSTATUS_DESC	NULL	NULL	NULL	NULL	DGC_NN_ID_323	EMPLOYEE_STATUS_EMPLOYEE_SSTATUS_DESC_NN
+8	DGT00186	DGA_ID_1222	CNO	DGC_PK_ID_191	CUSTOMER_CNO_PK	NULL	NULL	DGC_NN_ID_324	CUSTOMER_CNO_NN
+8	DGT00186	DGA_ID_1223	CUST_LNAME	NULL	NULL	NULL	NULL	DGC_NN_ID_325	CUSTOMER_CUST_LNAME_NN
+8	DGT00186	DGA_ID_1225	CUST_SEX	NULL	NULL	NULL	NULL	DGC_NN_ID_326	CUSTOMER_CUST_SEX_NN
+8	DGT00182	DGA_ID_1210	EMP_DOB	NULL	NULL	NULL	NULL	NULL	NULL
+8	DGT00180	DGA_ID_1202	CUST_SHIP_DATE	NULL	NULL	NULL	NULL	NULL	NULL
+8	DGT00181	DGA_ID_1204	EMPLOYEE_JOB_TITLE_DESC	NULL	NULL	NULL	NULL	NULL	NULL
+8	DGT00180	DGA_ID_1201	CUST_ORDER_DATE	NULL	NULL	NULL	NULL	NULL	NULL
+8	DGT00182	DGA_ID_1207	EMP_FNAME	NULL	NULL	NULL	NULL	NULL	NULL
+8	DGT00186	DGA_ID_1224	CUST_FNAME	NULL	NULL	NULL	NULL	NULL	NULL
+*/
+
+
+/*4.	For every database in DGDB, identify number of tables, number of attributes, 
+number of PK_ attributes, number of FK_ attributes, number of NN_attributes, 
+number of IDX_attributes, number of CC_attributes, number of UQ_attributes, 
+and number of PGM_attributes?*/
+SELECT T.Database_ID, COUNT(A.Table_id) as number_of_tables, COUNT(A.Attributes_ID) as number_of_attributes, COUNT(PK.PK_ID) as number_of_pk,
+COUnt(FK.Attributes_ID) as number_of_fk, COUNT(NN.NN_ID) as number_of_nn, COUNT(CC.CC_ID) as number_of_cc, COUNT(IDX.IDX_ID) as number_of_idx,
+COUNT(PGM.PGM_ID) as number_of_pgm, COUNT(UNQ.UQI_ID) as number_of_uqi
+FROM DG_Tables T FULL JOIN DG_Attributes A ON T.Table_ID = A.Table_id
+FULL JOIN DG_Attributes_PK PK ON PK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_FK FK on FK.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_ConstCheck CC on CC.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_Index IDX on IDX.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_Program PGM on PGM.Attributes_ID = A.Attributes_ID
+FULL JOIN DG_Attributes_Unique UNQ on UNQ.Attributes_ID = A.Attributes_ID
+GROUP BY T.Database_ID
+
+/*
+Database_ID	number_of_tables	number_of_attributes	number_of_pk	number_of_fk	number_of_nn	number_of_cc	number_of_idx	number_of_pgm	number_of_uqi
+1	365	365	93	84	166	36	141	38	0
+2	9	9	2	0	0	0	2	0	0
+3	59	59	11	0	0	0	20	0	0
+8	30	30	9	7	24	5	13	1	0
+
+*/
+
+
+/*5.	For every database, list tables with PK but without FK and IDX*/
+SELECT Table_ID, Table_Name
+FROM DG_Tables
+WHERE Table_ID in
+(SELECT DISTINCT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_PK PK ON A.Attributes_ID = PK.Attributes_ID WHERE A.Attributes_ID = PK.Attributes_ID)
+and Table_ID not in (SELECT DISTINCT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_Index I ON A.Attributes_ID = I.Attributes_ID WHERE A.Attributes_ID = I.Attributes_ID)
+and Table_ID not in (SELECT DISTINCT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_FK FK ON A.Attributes_ID = FK.Attributes_ID WHERE A.Attributes_ID = FK.Attributes_ID)
+/*
+ Table_ID	Table_Name
+ */
+
+/*6.	For every database, rank them according to number of NN (Not Null) have created*/
+SELECT S.schema_name, COUNT(NN.NN_ID) AS number_of_notnull, RANK () OVER (ORDER BY COUNT(NN.NN_ID) DESC) AS "RANK" 
+FROM DG_Schema S JOIN DG_Tables T ON S.schema_ID = T.Database_ID
+JOIN DG_Attributes A ON A.Table_id = T.Table_ID
+JOIN DG_Attributes_NotNull NN ON NN.Attributes_ID =A.Attributes_ID
+GROUP BY S.schema_name
+
+/*
+Zeota	166	1
+Furn	24	2
+*/

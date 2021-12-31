@@ -1,0 +1,116 @@
+----Adding INSERT statement for FUNC------------------
+
+/*Table DG_Schema*/
+insert into DG_Schema values(   8,'Furn','Furn','  10/12/2021   ','     ');
+
+/*Table DG_tables*/
+insert into DG_tables values(	'DGT00179','PRODUCT_CATEGORY',8,'PRODUCT_CATEGORY_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00180','ORDERS',8,'ORDERS_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00181','EMPLOYEE_JOB_TITLE',8,'EMPLOYEE_JOB_TITLE_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00182','EMPLOYEE',8,'EMPLOYEE_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00183','ORDER_LINE',8,'ORDER_LINE_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00184','PRODUCT',8,'PRODUCT_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00185','EMPLOYEE_STATUS',8,'EMPLOYEE_STATUS_Table','	10/12/2021	','');
+insert into DG_tables values(	'DGT00186','CUSTOMER',8,'CUSTOMER_Table','	10/12/2021	','');
+
+/*Table DG_Attributes*/
+insert into DG_Attributes values( 	'DGT00179','PRODUCT_CATEGORY','DGA_ID_1196','PRODUCT_CATEGORY_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00179','PRODUCT_CATEGORY','DGA_ID_1197','PRODUCT_CATEGORY_DESC','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00180','ORDERS','DGA_ID_1198','ORDER_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00180','ORDERS','DGA_ID_1199','ENO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00180','ORDERS','DGA_ID_1200','CNO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00180','ORDERS','DGA_ID_1201','CUST_ORDER_DATE','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00180','ORDERS','DGA_ID_1202','CUST_SHIP_DATE','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00181','EMPLOYEE_JOB_TITLE','DGA_ID_1203','EMPLOYEE_JOB_TITLE_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00181','EMPLOYEE_JOB_TITLE','DGA_ID_1204','EMPLOYEE_JOB_TITLE_DESC','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1205','ENO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1206','EMP_LNAME','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1207','EMP_FNAME','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1208','EMP_JOB_TITLE_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1209','EMP_SEX','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1210','EMP_DOB','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00182','EMPLOYEE','DGA_ID_1211','EMP_STATUS_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00183','ORDER_LINE','DGA_ID_1212','PNO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00183','ORDER_LINE','DGA_ID_1213','ORDER_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00183','ORDER_LINE','DGA_ID_1214','ORDER_QTY','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00184','PRODUCT','DGA_ID_1215','PNO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00184','PRODUCT','DGA_ID_1216','PRODUCT_CATEGORY_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00184','PRODUCT','DGA_ID_1217','PROD_NAME','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00184','PRODUCT','DGA_ID_1218','UNIT_PRICE','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00184','PRODUCT','DGA_ID_1219','UNIT_COST','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00185','EMPLOYEE_STATUS','DGA_ID_1220','EMPLOYEE_STATUS_ID','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00185','EMPLOYEE_STATUS','DGA_ID_1221','EMPLOYEE_SSTATUS_DESC','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00186','CUSTOMER','DGA_ID_1222','CNO','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00186','CUSTOMER','DGA_ID_1223','CUST_LNAME','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00186','CUSTOMER','DGA_ID_1224','CUST_FNAME','','	10/12/2021	','');
+insert into DG_Attributes values( 	'DGT00186','CUSTOMER','DGA_ID_1225','CUST_SEX','','	10/12/2021	','');
+
+insert into DG_Attributes_PK values(	'PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_PK','PK','DGC_PK_ID_183','DGA_ID_1196','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'ORDERS_ORDER_ID_PK','PK','DGC_PK_ID_184','DGA_ID_1198','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_PK','PK','DGC_PK_ID_185','DGA_ID_1203','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'EMPLOYEE_ENO_PK','PK','DGC_PK_ID_186','DGA_ID_1205','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'ORDER_LINE_PNO_PK','PK','DGC_PK_ID_187','DGA_ID_1212','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'ORDER_LINE_ORDER_ID_PK','PK','DGC_PK_ID_188','DGA_ID_1213','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'PRODUCT_PNO_PK','PK','DGC_PK_ID_189','DGA_ID_1215','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_PK','PK','DGC_PK_ID_190','DGA_ID_1220','','	10/12/2021	','');
+insert into DG_Attributes_PK values(	'CUSTOMER_CNO_PK','PK','DGC_PK_ID_191','DGA_ID_1222','','	10/12/2021	','');
+
+/*Table DG_Attributes_Index*/
+insert into DG_Attributes_Index values(	'PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_IDX','IDX','DGC_IDX_ID_259','DGA_ID_1196','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'PRODUCT_CATEGORY_PRODUCT_CATEGORY_DESC_IDX','IDX','DGC_IDX_ID_260','DGA_ID_1197','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'ORDERS_ORDER_ID_IDX','IDX','DGC_IDX_ID_261','DGA_ID_1198','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_IDX','IDX','DGC_IDX_ID_262','DGA_ID_1203','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'EMPLOYEE_ENO_IDX','IDX','DGC_IDX_ID_263','DGA_ID_1205','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'EMPLOYEE_EMP_LNAME_IDX','IDX','DGC_IDX_ID_264','DGA_ID_1206','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'EMPLOYEE_EMP_SEX_IDX','IDX','DGC_IDX_ID_265','DGA_ID_1209','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'PRODUCT_PNO_IDX','IDX','DGC_IDX_ID_266','DGA_ID_1215','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'PRODUCT_PROD_NAME_IDX','IDX','DGC_IDX_ID_267','DGA_ID_1217','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_IDX','IDX','DGC_IDX_ID_268','DGA_ID_1220','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'CUSTOMER_CNO_IDX','IDX','DGC_IDX_ID_269','DGA_ID_1222','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'CUSTOMER_CUST_LNAME_IDX','IDX','DGC_IDX_ID_270','DGA_ID_1223','','	10/12/2021	','');
+insert into DG_Attributes_Index values(	'CUSTOMER_CUST_SEX_IDX','IDX','DGC_IDX_ID_271','DGA_ID_1225','','	10/12/2021	','');
+
+/*Table DG_Attributes_FK*/
+insert into DG_Attributes_FK values(	'ORDERS_ENO_FK','FK','DGC_FK_ID_134','DGA_ID_1199','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'ORDERS_CNO_FK','FK','DGC_FK_ID_135','DGA_ID_1200','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'EMPLOYEE_EMP_JOB_TITLE_ID_FK','FK','DGC_FK_ID_136','DGA_ID_1208','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'EMPLOYEE_EMP_STATUS_ID_FK','FK','DGC_FK_ID_137','DGA_ID_1211','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'ORDER_LINE_PNO_FK','FK','DGC_FK_ID_138','DGA_ID_1212','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'ORDER_LINE_ORDER_ID_FK','FK','DGC_FK_ID_9001','DGA_ID_1213','','	10/12/2021	','');
+insert into DG_Attributes_FK values(	'PRODUCT_PRODUCT_CATEGORY_ID_FK','FK','DGC_FK_ID_9002','DGA_ID_1216','','	10/12/2021	','');
+
+/*Table DG_Attributes_NotNull*/
+insert into DG_Attributes_NotNull values(	'PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_NN','NN','DGC_NN_ID_303','DGA_ID_1196','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_CATEGORY_PRODUCT_CATEGORY_DESC_NN','NN','DGC_NN_ID_304','DGA_ID_1197','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDERS_ORDER_ID_NN','NN','DGC_NN_ID_305','DGA_ID_1198','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDERS_ENO_NN','NN','DGC_NN_ID_306','DGA_ID_1199','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDERS_CNO_NN','NN','DGC_NN_ID_307','DGA_ID_1200','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_NN','NN','DGC_NN_ID_308','DGA_ID_1203','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_ENO_NN','NN','DGC_NN_ID_309','DGA_ID_1205','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_EMP_LNAME_NN','NN','DGC_NN_ID_310','DGA_ID_1206','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_EMP_JOB_TITLE_ID_NN','NN','DGC_NN_ID_311','DGA_ID_1208','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_EMP_SEX_NN','NN','DGC_NN_ID_312','DGA_ID_1209','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_EMP_STATUS_ID_NN','NN','DGC_NN_ID_313','DGA_ID_1211','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDER_LINE_PNO_NN','NN','DGC_NN_ID_314','DGA_ID_1212','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDER_LINE_ORDER_ID_NN','NN','DGC_NN_ID_315','DGA_ID_1213','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'ORDER_LINE_ORDER_QTY_NN','NN','DGC_NN_ID_316','DGA_ID_1214','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_PNO_NN','NN','DGC_NN_ID_317','DGA_ID_1215','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_PRODUCT_CATEGORY_ID_NN','NN','DGC_NN_ID_318','DGA_ID_1216','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_PROD_NAME_NN','NN','DGC_NN_ID_319','DGA_ID_1217','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_UNIT_PRICE_NN','NN','DGC_NN_ID_320','DGA_ID_1218','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'PRODUCT_UNIT_COST_NN','NN','DGC_NN_ID_321','DGA_ID_1219','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_NN','NN','DGC_NN_ID_322','DGA_ID_1220','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'EMPLOYEE_STATUS_EMPLOYEE_SSTATUS_DESC_NN','NN','DGC_NN_ID_323','DGA_ID_1221','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'CUSTOMER_CNO_NN','NN','DGC_NN_ID_324','DGA_ID_1222','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'CUSTOMER_CUST_LNAME_NN','NN','DGC_NN_ID_325','DGA_ID_1223','','	10/12/2021	','');
+insert into DG_Attributes_NotNull values(	'CUSTOMER_CUST_SEX_NN','NN','DGC_NN_ID_326','DGA_ID_1225','','	10/12/2021	','');
+
+/*Table DG_Attributes_ConstCheck*/
+insert into DG_Attributes_ConstCheck values(	'EMPLOYEE_EMP_SEX_CC','CC','DGC_CC_ID_54','DGA_ID_1209','','	10/12/2021	','');
+insert into DG_Attributes_ConstCheck values(	'ORDER_LINE_ORDER_QTY_CC','CC','DGC_CC_ID_55','DGA_ID_1214','','	10/12/2021	','');
+insert into DG_Attributes_ConstCheck values(	'PRODUCT_UNIT_PRICE_CC','CC','DGC_CC_ID_56','DGA_ID_1218','','	10/12/2021	','');
+insert into DG_Attributes_ConstCheck values(	'PRODUCT_UNIT_COST_CC','CC','DGC_CC_ID_57','DGA_ID_1219','','	10/12/2021	','');
+insert into DG_Attributes_ConstCheck values(	'CUSTOMER_CUST_SEX_CC','CC','DGC_CC_ID_58','DGA_ID_1225','','	10/12/2021	','');
+
+/*Table DG_Attributes_Program*/
+insert into DG_Attributes_Program values(	'ORDERS_CUST_ORDER_DATE_PGM','PGM','DGC_PGM_ID_49','DGA_ID_1201','','	10/12/2021	','');

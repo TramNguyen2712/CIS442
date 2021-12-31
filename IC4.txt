@@ -1,0 +1,155 @@
+/* 1.Give the supplier name that supplies the maximum quantity of parts.*/
+select s.sname, sum(qty) as total_qty
+from s
+inner join sp on s.s# = sp.s#
+group by sp.s#, s.sname
+order by sum(qty) desc
+fetch FIRST ROW only;
+
+/*SNAME            TOTAL_QTY
+--------------- ----------
+Smith                 1300*/
+
+/*2.Give the name of the supplier whose supplies red parts and whose weight is greater than 10.*/
+column supplier_name FORMAT a15
+select sname as supplier_name
+from s
+where s# in (select s# 
+         from sp join p 
+         on sp.p# = p.p# 
+         where p.color = 'Red' 
+                  and p.weight > 10);
+
+
+/*
+SUPPLIER_NAME  
+---------------
+Clark
+Smith
+Jones
+*/
+
+/*3.Give all the part numbers that are from the same city. Make sure the result does not have any duplicate.*/
+select distinct sp.p#
+from sp join s 
+on sp.s# = s.s#
+where sp.s# in (select distinct a.s# 
+from s a inner join s b 
+on a.s# <> b.s# 
+where a.city = b.city)
+order by sp.p#;
+
+/*
+P# CITY  
+-- ------
+P5 Paris 
+P4 London
+P1 London
+P6 London
+P2 Paris 
+*/
+
+/*4.Give how many parts each supplier has and the total qty each part has.*/
+
+select s#,count(p#), sum(qty)
+from sp
+group by s#
+
+/*
+S#  COUNT(P#)   SUM(QTY)
+-- ---------- ----------
+S2          2        700
+S4          3        900
+S1          6       1300
+S3          1        200
+*/
+
+/*5.Give the total quantity of all the blue part*/
+select p#, sum(qty)
+from sp 
+where p# in (select p# from p where color = 'Blue')
+group by p#;
+
+/*
+P#   SUM(QTY)
+-- ----------
+P5        500
+P3        400
+*/
+
+/*6.Give the top and bottom suppliers based on the quantity they supply.*/
+(select * 
+from sp 
+order by qty asc 
+fetch next 1 rows only) 
+union 
+(select * 
+from sp 
+order by qty desc 
+fetch next 1 rows only);
+
+/*
+S# P#        QTY
+-- -- ----------
+S1 P3        400
+S1 P5        100
+*/
+
+
+/*7.Give the top 3 parts that weigh the most.*/
+select p#, pname 
+from p
+order by weight desc
+fetch first 3 rows only;
+
+/*
+P# PNAME
+-- -----
+P6 Cog  
+P2 Bolt 
+P3 Screw
+*/
+
+
+/*8.Give the total weight of all the red parts*/
+select color, sum(weight) as total_weight
+from p
+where color = 'Red'
+group by color
+
+/*
+COL TOTAL_WEIGHT
+--- ------------
+Red           45
+*/
+
+
+/*9.Give the total qty for all the parts*/
+Select  PName, Sum(Qty) from SP inner join P on SP.P#=P.P# group by PName;
+
+/*
+PNAME   SUM(QTY)
+----- ----------
+Screw        900
+Cam          500
+Cog          100
+Nut          600
+Bolt        1000
+*/
+
+/*10.Rank suppliers on the total quantity and number of part*/
+SELECT  SNAME, SUM(QTY) AS TOTAL_QTY, COUNT(P#) AS TOTAL_PART,
+rank() over (order by sum(qty) desc, count(p#) desc) "RANK"
+FROM SP
+INNER JOIN S ON SP.S# = S.S#
+GROUP BY SNAME
+order by total_qty desc;
+
+/*
+SNAME            TOTAL_QTY TOTAL_PART       RANK
+--------------- ---------- ---------- ----------
+Smith                 1300          6          1
+Clark                  900          3          2
+Jones                  700          2          3
+Black                  200          1          4
+*/

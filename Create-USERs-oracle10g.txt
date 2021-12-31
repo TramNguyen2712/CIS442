@@ -1,0 +1,12 @@
+--create a user in Oracle 10g with DBA power then create multiple users 
+
+Drop user	popco	CASCADE;							
+create user  	popco	Identified by	popco	default	tablespace	users	temporary	tablespace	temp;
+grant connect to 	popco	;							
+grant unlimited tablespace to  	popco	;
+
+grant create table to popco;
+grant create role to popco;
+grant create procedure to popco;
+grant create trigger to popco;
+grant create view to popco;

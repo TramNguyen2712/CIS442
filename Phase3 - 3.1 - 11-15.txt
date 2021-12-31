@@ -1,0 +1,84 @@
+/*11.	list database id, database name, table number, table name, column id, and column name*/
+create procedure data_tbles_col
+as
+	set nocount on;
+	SELECT S.schema_ID, S.schema_name, T.Table_ID, T.Table_Name, A.Attributes_ID as column_id, A.Attributes_Name as column_name
+	FROM DG_Schema S JOIN DG_Tables T ON S.schema_ID = T.Database_ID
+	JOIN DG_Attributes A ON A.Table_id = T.Table_ID
+	ORDER BY S.schema_ID
+GO
+
+EXEC data_tbles_col;
+
+
+/*12.	 List the following: Table_ID, Table_Name, column_id, PK_ID, constraint_type, and constraint_Name*/
+create procedure tbles_cols_Pk
+as
+	set nocount on;
+	SELECT T.Table_ID, T.Table_Name, A.Attributes_ID as column_id, PK.PK_ID, PK.Constraint_Type, PK.Constraint_name
+	FROM DG_Tables T JOIN DG_Attributes A ON T.Table_ID = A.Table_id
+	JOIN DG_Attributes_PK PK ON PK.Attributes_ID = A.Attributes_ID
+GO
+
+EXEC tbles_cols_Pk;
+
+/*13.	List the followings: database_Name, number_PKs, number_FKs, number_NNs, number_CCs, number_IDXs, number_PGMs*/
+create procedure tbls_noPk
+as
+	set nocount on;
+	select TABLE_NAME from [Zeota].INFORMATION_SCHEMA.TABLE_CONSTRAINTS where CONSTRAINT_TYPE != 'PRIMARY KEY'
+	select TABLE_NAME from [SP].INFORMATION_SCHEMA.TABLE_CONSTRAINTS where CONSTRAINT_TYPE != 'PRIMARY KEY'
+	select TABLE_NAME from [PROP].INFORMATION_SCHEMA.TABLE_CONSTRAINTS where CONSTRAINT_TYPE != 'PRIMARY KEY'
+GO
+
+EXEC tbls_noPk;
+
+/*14. For every database, list tables without IDX*/
+create procedure tbls_PknoIdx
+as
+	set nocount on;
+	SELECT Table_ID, Table_Name
+	FROM DG_Tables
+	WHERE Table_ID not in
+	(SELECT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_Index I ON A.Attributes_ID = I.Attributes_ID WHERE A.Attributes_ID = I.Attributes_ID)
+	and Database_ID = 1
+
+	SELECT Table_ID, Table_Name
+	FROM DG_Tables
+	WHERE Table_ID not in
+	(SELECT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_Index I ON A.Attributes_ID = I.Attributes_ID WHERE A.Attributes_ID = I.Attributes_ID)
+	and Database_ID = 2
+
+	SELECT Table_ID, Table_Name
+	FROM DG_Tables
+	WHERE Table_ID not in
+	(SELECT A.Table_id FROM DG_Attributes A JOIN DG_Attributes_Index I ON A.Attributes_ID = I.Attributes_ID WHERE A.Attributes_ID = I.Attributes_ID)
+	and Database_ID = 3
+
+GO
+
+EXEC tbls_PknoIdx;
+
+/*15. For every database, list tables with PK but without FK*/
+create procedure tbls_PknoFk
+as
+	set nocount on;
+	SELECT name FROM [SP].sys.tables AS TBL
+	LEFT JOIN sys.foreign_key_columns AS fKey
+	ON TBL.object_id = fKey.parent_object_id
+	WHERE fKey.parent_object_id IS NULL
+
+	SELECT name FROM [ZEOTA].sys.tables AS TBL
+	LEFT JOIN sys.foreign_key_columns AS fKey
+	ON TBL.object_id = fKey.parent_object_id
+	WHERE fKey.parent_object_id IS NULL
+
+	SELECT name FROM [PROP].sys.tables AS TBL
+	LEFT JOIN sys.foreign_key_columns AS fKey
+	ON TBL.object_id = fKey.parent_object_id
+	WHERE fKey.parent_object_id IS NULL
+GO
+
+EXEC tbls_PknoFk;
+
+

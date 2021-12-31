@@ -1,0 +1,28 @@
+/*Create a UDF to pass database name and get the following: #tables, #attributes, #PK_attributes, #FK_attributes,... , and #PGM_attributes?*/
+
+Create Function database_name_info (
+@databasename varchar (20)
+) 
+Returns TABLE AS
+Return 
+	select S.schema_name,count(distinct T.Table_ID) as #tables, count(A.Attributes_ID) as #attributes, count(PK.PK_ID) as #PK_attributes,
+	count(FK.FK_ID) as #FK_attributes, count(NN.NN_ID) as #NN_attributes, count(IDX.IDX_ID) as #IDX_attributes
+	,count(CC.CC_ID) as #CC_attributes, count(PGM.PGM_ID) as #PGM_attributes
+	from DG_Schema S left join DG_Tables T on S.schema_ID = T.Database_ID
+	left join DG_Attributes A on A.Table_ID = T.Table_ID
+	left join DG_Attributes_PK PK on PK.Attributes_ID = A.Attributes_ID
+	left join DG_Attributes_FK FK on FK.Attributes_ID = A.Attributes_ID
+	left join DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+	left join DG_Attributes_Index IDX on IDX.Attributes_ID = A.Attributes_ID
+	left join DG_Attributes_ConstCheck CC on CC.Attributes_ID = A.Attributes_ID
+	left join DG_Attributes_Program PGM on PGM.Attributes_ID = A.Attributes_ID
+	where S.schema_name = @databasename 
+	Group by S.schema_name; 
+
+Select * 
+from database_name_info('Zeota')
+
+/*
+schema_name	#tables	#attributes	#PK_attributes	#FK_attributes	#NN_attributes	#IDX_attributes	#CC_attributes	#PGM_attributes
+Zeota	76	365	93	84	166	141	36	38
+*/

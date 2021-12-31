@@ -1,0 +1,29 @@
+
+--1. How many tables each database has?*/
+select distinct c.owner,COUNT(t.table_name) AS Table_Name
+from user_tab_columns t join user_constraints c
+on t.table_name = c.table_name
+GROUP BY t.table_name;
+                                                                                        3
+
+--2. For every table in your newly added database, identify number of tables, number of 	attributes, 
+	number of PK_ attributes, number of FK_ attributes, number of NN_attributes, number of IDX_attributes, 
+	number of CC_attributes, number of UQ_attributes, and number of PGM_attributes?
+
+--3. For every table in your newly added database, list the following: Table_ID, Table_Name, 	
+	attribute_id, attribute_Name, PK_ID, FK_ID, NN_IDconstraint_type, and 	constraint_Name
+
+select t.table_name,c.column_name,t.constraint_type
+from USER_CONS_COLUMNS c JOIN user_constraints t ON t.table_name=c.table_name;
+
+--4 For every database in DGDB, identify number of tables, number of attributes, number of PK_ attributes, 
+	number of FK_ attributes, number of NN_attributes, number of IDX_attributes, number of CC_attributes, 
+	number of UQ_attributes, and number of PGM_attributes?
+
+--5. For every database, list tables with PK but without FK and IDX
+
+select table_name,constraint_type
+from user_constraints 
+where constraint_type = 'P' 
+and table_name not in (select table_name from user_constraints where constraint_type = 'R')
+and table_name not in (select table_name from user_indexes);

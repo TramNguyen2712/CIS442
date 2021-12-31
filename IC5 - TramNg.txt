@@ -1,0 +1,161 @@
+----7.	List number of tables for each unit of Zeota schema
+SELECT COUNT(T.Table_ID) as 'NUMBER_OF_TABLE', S.schema_name as 'SCHEMA_NAME'
+FROM DG_Schema S JOIN DG_Tables T
+ON S.schema_ID = T.Database_ID
+GROUP BY S.schema_name
+
+/*NUMBER_OF_TABLE SCHEMA_NAME
+--------------- ----------------
+69              DGD
+
+*/
+
+----8.	List unit name, table name, and role name
+SELECT DISTINCT U.Unit_Name, T.Table_Name, R.Role_Name
+FROM DG_Tables T JOIN DG_Unit_Role_Table URT
+ON	T.Table_ID = URT.Table_id
+JOIN DG_Unit U ON U.Unit_ID = URT.Unit_ID
+JOIN DG_Role R  ON R.Role_ID = URT.Role_ID
+
+/*Unit_Name                                                                        Table_Name                                                                       Role_Name
+-------------------------------------------------------------------------------- -------------------------------------------------------------------------------- --------------------------------------------------------------------------------
+Administration                                                                   List_Tables                                                                      Administration Manager
+Administration                                                                   List_Tables                                                                      Administration Staff
+Administration                                                                   region_state                                                                     Administration Manager
+Administration                                                                   region_state                                                                     Administration Staff
+Administration                                                                   regions                                                                          Administration Manager
+Administration                                                                   regions                                                                          Administration Staff
+Administration                                                                   state_capital                                                                    Administration Manager
+Administration                                                                   state_capital                                                                    Administration Staff
+Administration                                                                   User_Role                                                                        Administration Manager
+Administration                                                                   User_Role                                                                        Administration Staff
+Customer Service                                                                 User_Info                                                                        Customer Service Manager
+Customer Service                                                                 User_Info                                                                        Customer Service Staff
+Finance                                                                          EMP_payroll                                                                      Finance  Manager
+Finance                                                                          EMP_payroll                                                                      Finance  Staff
+Finance                                                                          payroll                                                                          Finance  Manager
+Finance                                                                          payroll                                                                          Finance  Staff
+Finance                                                                          TAX                                                                              Finance  Manager
+Finance                                                                          TAX                                                                              Finance  Staff
+HR                                                                               Department                                                                       Human Resources Manager
+HR                                                                               Department                                                                       Human Resources Staff
+HR                                                                               Dependents                                                                       Human Resources Manager
+HR                                                                               Dependents                                                                       Human Resources Staff
+HR                                                                               Dept_Branch                                                                      Human Resources Manager
+HR                                                                               Dept_Branch                                                                      Human Resources Staff
+HR                                                                               Dept_Emp                                                                         Human Resources Manager
+HR                                                                               Dept_Emp                                                                         Human Resources Staff
+HR                                                                               Dept_Mgr                                                                         Human Resources Manager
+HR                                                                               Dept_Mgr                                                                         Human Resources Staff
+HR                                                                               Dept_Tables                                                                      Human Resources Manager
+HR                                                                               Dept_Tables                                                                      Human Resources Staff
+HR                                                                               Emp_salary                                                                       Human Resources Manager
+HR                                                                               Emp_salary                                                                       Human Resources Staff
+HR                                                                               EMP_Skill                                                                        Human Resources Manager
+HR                                                                               EMP_Skill                                                                        Human Resources Staff
+HR                                                                               Emp_Status                                                                       Human Resources Manager
+HR                                                                               Emp_Status                                                                       Human Resources Staff
+HR                                                                               EMPLOYEE                                                                         Human Resources Manager
+HR                                                                               EMPLOYEE                                                                         Human Resources Staff
+HR                                                                               Employee_Position                                                                Human Resources Manager
+HR                                                                               Employee_Position                                                                Human Resources Staff
+HR                                                                               employement_status                                                               Human Resources Manager
+HR                                                                               employement_status                                                               Human Resources Staff
+HR                                                                               position                                                                         Human Resources Manager
+HR                                                                               position                                                                         Human Resources Staff
+HR                                                                               Relationship                                                                     Human Resources Manager
+HR                                                                               Relationship                                                                     Human Resources Staff
+HR                                                                               Roles                                                                            Human Resources Manager
+HR                                                                               Roles                                                                            Human Resources Staff
+HR                                                                               salary                                                                           Human Resources Manager
+HR                                                                               salary                                                                           Human Resources Staff
+HR                                                                               Skill                                                                            Human Resources Manager
+HR                                                                               Skill                                                                            Human Resources Staff
+Marketing                                                                        Prod_Promotion                                                                   Marketing Manager
+Marketing                                                                        Prod_Promotion                                                                   Marketing Staff
+Marketing                                                                        PROMOTION                                                                        Marketing Manager
+Marketing                                                                        PROMOTION                                                                        Marketing Staff
+Marketing                                                                        QTYDISCOUNT                                                                      Marketing Manager
+Marketing                                                                        QTYDISCOUNT                                                                      Marketing Staff
+Marketing                                                                        Return_Sales_Commission                                                          Marketing Manager
+Marketing                                                                        Return_Sales_Commission                                                          Marketing Staff
+Marketing                                                                        Sales_commission                                                                 Marketing Manager
+Marketing                                                                        Sales_commission                                                                 Marketing Staff
+Marketing                                                                        Vendor_QTYDISCOUNT                                                               Marketing Manager
+Marketing                                                                        Vendor_QTYDISCOUNT                                                               Marketing Staff
+Marketing                                                                        Vndor_PROMOTION                                                                  Marketing Manager
+Marketing                                                                        Vndor_PROMOTION                                                                  Marketing Staff
+MIS                                                                              Certificate                                                                      MIS Manager
+MIS                                                                              Certificate                                                                      MIS Staff
+MIS                                                                              Company                                                                          MIS Manager
+MIS                                                                              Company                                                                          MIS Staff
+MIS                                                                              Education_Type                                                                   MIS Manager
+MIS                                                                              Education_Type                                                                   MIS Staff
+MIS                                                                              EMP_Education                                                                    MIS Manager
+MIS                                                                              EMP_Education                                                                    MIS Staff
+MIS                                                                              External_EMP_Certification                                                       MIS Manager
+MIS                                                                              External_EMP_Certification                                                       MIS Staff
+MIS                                                                              External_EMP_Training                                                            MIS Manager
+MIS                                                                              External_EMP_Training                                                            MIS Staff
+MIS                                                                              Institution                                                                      MIS Manager
+MIS                                                                              Institution                                                                      MIS Staff
+MIS                                                                              Internal_EMP_Training                                                            MIS Manager
+MIS                                                                              Internal_EMP_Training                                                            MIS Staff
+MIS                                                                              Major                                                                            MIS Manager
+MIS                                                                              Major                                                                            MIS Staff
+MIS                                                                              Minor                                                                            MIS Manager
+MIS                                                                              Minor                                                                            MIS Staff
+MIS                                                                              Training                                                                         MIS Manager
+MIS                                                                              Training                                                                         MIS Staff
+Product_Warehouse                                                                INQUIRY                                                                          Product-Warehouse Manager
+Product_Warehouse                                                                INQUIRY                                                                          Product-Warehouse Staff
+Product_Warehouse                                                                Inquiry_Action                                                                   Product-Warehouse Manager
+Product_Warehouse                                                                Inquiry_Action                                                                   Product-Warehouse Staff
+Product_Warehouse                                                                INQUIRY_Category                                                                 Product-Warehouse Manager
+Product_Warehouse                                                                INQUIRY_Category                                                                 Product-Warehouse Staff
+Product_Warehouse                                                                Prod_Condition                                                                   Product-Warehouse Manager
+Product_Warehouse                                                                Prod_Condition                                                                   Product-Warehouse Staff
+Product_Warehouse                                                                prod_warehouse                                                                   Product-Warehouse Manager
+Product_Warehouse                                                                prod_warehouse                                                                   Product-Warehouse Staff
+Product_Warehouse                                                                PRODUCT                                                                          Product-Warehouse Manager
+Product_Warehouse                                                                PRODUCT                                                                          Product-Warehouse Staff
+Product_Warehouse                                                                PRODUCTSET                                                                       Product-Warehouse Manager
+Product_Warehouse                                                                PRODUCTSET                                                                       Product-Warehouse Staff
+Product_Warehouse                                                                Warehouse                                                                        Product-Warehouse Manager
+Product_Warehouse                                                                Warehouse                                                                        Product-Warehouse Staff
+Purchasing                                                                       PRODVENDOR                                                                       Purchasing Manager
+Purchasing                                                                       PRODVENDOR                                                                       Purchasing Staff
+Purchasing                                                                       VENDOR                                                                           Purchasing Manager
+Purchasing                                                                       VENDOR                                                                           Purchasing Staff
+Purchasing                                                                       VENDORPRICE                                                                      Purchasing Manager
+Purchasing                                                                       VENDORPRICE                                                                      Purchasing Staff
+Sales                                                                            backorder                                                                        Sales Manager
+Sales                                                                            backorder                                                                        Sales Staff
+Sales                                                                            BRANCH                                                                           Sales Manager
+Sales                                                                            BRANCH                                                                           Sales Staff
+Sales                                                                            Branch_Size                                                                      Sales Manager
+Sales                                                                            Branch_Size                                                                      Sales Staff
+Sales                                                                            CUSTOMER                                                                         Sales Manager
+Sales                                                                            CUSTOMER                                                                         Sales Staff
+Sales                                                                            Order_Inquiry                                                                    Sales Manager
+Sales                                                                            Order_Inquiry                                                                    Sales Staff
+Sales                                                                            OrderInquiry_Action                                                              Sales Manager
+Sales                                                                            OrderInquiry_Action                                                              Sales Staff
+Sales                                                                            ORDERLINE                                                                        Sales Manager
+Sales                                                                            ORDERLINE                                                                        Sales Staff
+Sales                                                                            ORDERS                                                                           Sales Manager
+Sales                                                                            ORDERS                                                                           Sales Staff
+Sales                                                                            return_category                                                                  Sales Manager
+Sales                                                                            return_category                                                                  Sales Staff
+Sales                                                                            Return2Vendor                                                                    Sales Manager
+Sales                                                                            Return2Vendor                                                                    Sales Staff
+Sales                                                                            RETURNPROD                                                                       Sales Manager
+Sales                                                                            RETURNPROD                                                                       Sales Staff
+Sales                                                                            RETURNPROD_Condition                                                             Sales Manager
+Sales                                                                            RETURNPROD_Condition                                                             Sales Staff
+Sales                                                                            ship_method                                                                      Sales Manager
+Sales                                                                            ship_method                                                                      Sales Staff
+Sales                                                                            Ship2Warehouse                                                                   Sales Manager
+Sales                                                                            Ship2Warehouse                                                                   Sales Staff
+
+*/

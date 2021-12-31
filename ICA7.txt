@@ -1,0 +1,34 @@
+
+-----Table DG_Attributes_PK-----------
+
+create table DG_Attributes_PK(					
+Constraint_name varchar(80),					
+Constraint_Type varchar(80),					
+PK_ID   varchar(80),					
+Attributes_ID varchar(80),					
+Comment varchar(80),					
+create_date date,					
+modify_date date,					
+constraint DG_Attributes_PK_PK_ID_Attributes_ID_PK primary key (PK_ID,Attributes_ID),					
+CONSTRAINT DG_Attributes_PK_Attributes_ID_FK FOREIGN KEY (Attributes_ID) REFERENCES DG_Attributes(Attributes_ID));					
+
+insert into DG_Attributes_PK values( 	'S_S#_PK','PK','DGC_PK_ID_121','DGA_ID_981','','	9/28/2021	','');
+insert into DG_Attributes_PK values( 	'P_P#_PK','PK','DGC_PK_ID_122','DGA_ID_985','','	9/28/2021	','');
+insert into DG_Attributes_PK values( 	'SP_S#_PK','PK','DGC_PK_ID_123','DGA_ID_990','','	9/28/2021	','');
+insert into DG_Attributes_PK values( 	'SP_P#_PK','PK','DGC_PK_ID_124','DGA_ID_991','','	9/28/2021	','');
+
+-----Table DG_Attributes_FK-----------
+
+Create table DG_Attributes_FK(			
+Constraint_name varchar(80),			
+Constraint_Type varchar(80),			
+FK_ID   varchar(80),			
+Attributes_ID varchar(80),			
+Comment varchar(80),			
+create_date     date,			
+modify_date date,			
+constraint DG_Attributes_FK_FK_ID_Attributes_ID_PK primary key (FK_ID,Attributes_ID),			
+CONSTRAINT DG_Attributes_FK_Attributes_ID_FK FOREIGN KEY (Attributes_ID) REFERENCES DG_Attributes(Attributes_ID));			
+
+insert into DG_Attributes_FK values(	'SP_S#_FK','FK','DGC_FK_ID_91','DGA_ID_990','','	9/28/2021	','');
+insert into DG_Attributes_FK values(	'SP_P#_FK','FK','DGC_FK_ID_92','DGA_ID_991','','	9/28/2021	','');

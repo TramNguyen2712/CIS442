@@ -1,0 +1,58 @@
+/*1.List the followings: database_Name,number_tables, Number_columns,  number_PKs, number_FKs, number_NNs, number_CCs, number_IDXs, number_PGMs*/
+select S.schema_name,T.Database_ID, count(T.Table_ID)number_tables, count(A.Attributes_ID)Number_columns, count(PK.PK_ID)number_PKs
+, count(FK.FK_ID)number_FKs, count(I.IDX_ID)number_IDXs, count(NN.NN_ID)number_NNs, count(PGM.PGM_ID)number_PGMs
+from DG_Schema S full join DG_Tables T on S.schema_ID = T.Database_ID
+full join DG_Attributes A on A.Table_id = T.Table_ID
+full join DG_Attributes_PK PK on PK.Attributes_ID = A.Attributes_ID
+full join DG_Attributes_FK FK on FK.Attributes_ID = A.Attributes_ID
+full join DG_Attributes_Index I on I.Attributes_ID = A.Attributes_ID
+full join DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+full join DG_Attributes_Program PGM on PGM.Attributes_ID = A.Attributes_ID
+full join DG_Attributes_ConstCheck CC on CC.Attributes_ID = A.Attributes_ID
+group by S.schema_name,T.Database_ID;
+
+/*
+schema_name	Database_ID	number_tables	Number_columns	number_PKs	number_FKs	number_IDXs	number_NNs	number_PGMs
+Zeota	1	365	365	93	84	141	166	38
+SP	2	9	9	2	0	2	0	0
+Prop	3	60	59	11	0	20	0	0
+Furn	8	30	30	9	7	13	24	1
+*/
+
+/*2.List the following: yourDatabaseID, yourDatabase Name, Table_ID, Table_Name, column_id, column_name, PK_ID, constraint_type, and constraint_Name*/
+select S.schema_name,T.Database_ID, T.Table_ID, T.Table_Name, A.Attributes_Name,A.Attributes_ID,
+PK.PK_ID,PK.Constraint_Type, PK.Constraint_name
+from DG_Schema S full join DG_Tables T on S.schema_ID = T.Database_ID
+full join DG_Attributes A on A.Table_id = T.Table_ID
+full join DG_Attributes_PK PK on PK.Attributes_ID = A.Attributes_ID
+where T.Database_ID = 8 and PK_ID is not null;
+
+/*
+schema_name	Database_ID	Table_ID	Table_Name	Attributes_Name	Attributes_ID	PK_ID	Constraint_Type	Constraint_name
+Furn	8	DGT00179	PRODUCT_CATEGORY	PRODUCT_CATEGORY_ID	DGA_ID_1196	DGC_PK_ID_183	PK	PRODUCT_CATEGORY_PRODUCT_CATEGORY_ID_PK
+Furn	8	DGT00180	ORDERS	ORDER_ID	DGA_ID_1198	DGC_PK_ID_184	PK	ORDERS_ORDER_ID_PK
+Furn	8	DGT00181	EMPLOYEE_JOB_TITLE	EMPLOYEE_JOB_TITLE_ID	DGA_ID_1203	DGC_PK_ID_185	PK	EMPLOYEE_JOB_TITLE_EMPLOYEE_JOB_TITLE_ID_PK
+Furn	8	DGT00182	EMPLOYEE	ENO	DGA_ID_1205	DGC_PK_ID_186	PK	EMPLOYEE_ENO_PK
+Furn	8	DGT00183	ORDER_LINE	PNO	DGA_ID_1212	DGC_PK_ID_187	PK	ORDER_LINE_PNO_PK
+Furn	8	DGT00183	ORDER_LINE	ORDER_ID	DGA_ID_1213	DGC_PK_ID_188	PK	ORDER_LINE_ORDER_ID_PK
+Furn	8	DGT00184	PRODUCT	PNO	DGA_ID_1215	DGC_PK_ID_189	PK	PRODUCT_PNO_PK
+Furn	8	DGT00185	EMPLOYEE_STATUS	EMPLOYEE_STATUS_ID	DGA_ID_1220	DGC_PK_ID_190	PK	EMPLOYEE_STATUS_EMPLOYEE_STATUS_ID_PK
+Furn	8	DGT00186	CUSTOMER	CNO	DGA_ID_1222	DGC_PK_ID_191	PK	CUSTOMER_CNO_PK
+*/
+
+/*3.For every database, rank them according to number of NN (Not Null) have created*/
+select S.schema_name, COUNT(NN.NN_ID) as number_NNs, RANK () OVER (Order by COUNT(NN.NN_ID) DESC) rank
+from DG_Schema S full join DG_Tables T on S.schema_ID = T.Database_ID
+full join DG_Attributes A on A.Table_id = T.Table_ID
+full join DG_Attributes_NotNull NN on NN.Attributes_ID = A.Attributes_ID
+group by S.schema_name
+
+/*
+schema_name	number_NNs	rank
+Zeota	166	1
+Furn	24	2
+Prop	0	3
+SP	0	3
+*/
+
+

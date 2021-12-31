@@ -1,0 +1,4 @@
+insert into DG_Attributes_ConstCheck values (	'EMPLOYEE_SEX_CC','CC','DGC_CC_ID_40','DGT_Attributes_ID_986',' ','	9/23/2021	',' '	);
+insert into DG_Attributes_ConstCheck values (	'EMPLOYEE_SALARY_CC','CC','DGC_CC_ID_41','DGT_Attributes_ID_987',' ','	9/23/2021	',' '	);
+insert into DG_Attributes_ConstCheck values (	'DEPENDENT_SEX_CC','CC','DGC_CC_ID_42','DGT_Attributes_ID_1005',' ','	9/23/2021	',' '	);
+				

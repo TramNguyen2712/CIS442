@@ -1,0 +1,194 @@
+/*.  Create a UDF to pass database name to MSSQL system catalog and get the following: #tables, #attributes, #PK_attributes, #FK_attributes,... , and #PGM_attributes?*/
+-------------COUNT NUM TABLES ---------------------------
+create Function count_tables (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*)
+			from [Zeota].INFORMATION_SCHEMA.TABLES)
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*)
+			from [PROP].INFORMATION_SCHEMA.TABLES);
+	end
+
+	return 
+		(select count(*)
+			from [SP].INFORMATION_SCHEMA.TABLES);
+	
+end
+GO
+
+------------------------COUNT NUM OF ATTRIBUTES-----------------------------
+create Function count_attributes (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*)
+			from [Zeota].INFORMATION_SCHEMA.COLUMNS)
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*)
+			from [PROP].INFORMATION_SCHEMA.COLUMNS);
+	end
+
+	return 
+		(select count(*)
+			from [SP].INFORMATION_SCHEMA.COLUMNS);
+	
+end
+GO
+------------COUNT NUMBER OF PRIMARY KEY--------------------
+Create Function count_pks (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*)
+			from [Zeota].INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+			where CONSTRAINT_TYPE = 'PRIMARY KEY')
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*)
+			from [PROP].INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+			where CONSTRAINT_TYPE = 'PRIMARY KEY');
+	end
+
+	return 
+		(select count(*)
+		from [SP].INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+		where CONSTRAINT_TYPE = 'PRIMARY KEY');
+	
+end
+GO
+--------COUNT NUMBER OF FOREIGN KEY-------------------
+Create Function count_fks (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*) tot
+			from [Zeota].sys.foreign_key_columns)
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*) tot
+			from [PROP].sys.foreign_key_columns);
+	end
+
+	return 
+		(select count(*) tot
+		from [SP].sys.foreign_key_columns);
+	
+end
+GO
+
+----------COUNT NUM OF NNS-----------------------
+create Function count_nns (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*)
+			from [Zeota].INFORMATION_SCHEMA.COLUMNS
+			where IS_NULLABLE = 'NO')
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*)
+			from [PROP].INFORMATION_SCHEMA.COLUMNS
+			where IS_NULLABLE = 'NO');
+	end
+
+	return 
+		(select count(*)
+			from [SP].INFORMATION_SCHEMA.COLUMNS
+			where IS_NULLABLE = 'NO');
+	
+end
+----------COUNT NUM OF IDXES-------------
+create Function count_idxes (
+@databasename varchar (20))
+returns int
+as
+begin
+	if (@databasename = 'Zeota') 
+	begin
+		return
+			(select count(*)
+			from [Zeota].sys.tables T join [Zeota].sys.indexes I
+			on T.object_id = I.object_id)
+	end
+	else if (@databasename = 'PROP') 
+	begin
+		return 
+			(select count(*)
+			from [PROP].sys.tables T join [PROP].sys.indexes I
+			on T.object_id = I.object_id);
+	end
+
+	return 
+		(select count(*)
+			from [SP].sys.tables T join [SP].sys.indexes I
+			on T.object_id = I.object_id);
+	
+end
+
+
+-----------COUNT NUM OF PGM----------------------
+create Function count_PGMs (
+@databasename varchar (20))
+returns int
+as
+begin
+return
+		(select count(PGM.PGM_ID)
+			from [dgdbv4b].dbo.DG_Schema S full join [dgdbv4b].dbo.DG_Tables T on S.schema_ID = T.Database_ID
+			full join [dgdbv4b].dbo.DG_Attributes A on A.Table_id = T.Table_ID
+			full join [dgdbv4b].dbo.DG_Attributes_Program PGM on PGM.Attributes_ID = A.Attributes_ID
+			where S.schema_name = @databasename
+			group by S.schema_name
+			)
+	
+end
+GO
+
+
+----------------EXECUTE-------------------
+select schema_name,dbo.count_tables(schema_name) as num_tables,dbo.count_attributes(schema_name) as num_attributes  ,dbo.count_pks(schema_name) as num_pks, dbo.count_fks(schema_name) as num_fks,
+dbo.count_nns(schema_name) as num_nns, dbo.count_idxes(schema_name) as num_idxes, dbo.count_PGMs(schema_name) as num_PGM
+from [dgdbv4b].DG_Schema
+
+/*
+database_name                                                                    num_tables  num_attributes num_pks     num_fks     num_nns     num_idxes   num_PGM
+-------------------------------------------------------------------------------- ----------- -------------- ----------- ----------- ----------- ----------- -----------
+Zeota                                                                            73          328            73          96          105         74          38
+SP                                                                               3           12             3           2           4           6           0
+Prop                                                                             8           52             7           2           10          8           0
+
+*/

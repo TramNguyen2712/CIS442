@@ -1,0 +1,94 @@
+/*16. For every database, list tables with PK but without IDX*/
+SELECT name FROM [ZEOTA].sys.tables AS TBL
+LEFT JOIN sys.index_columns as idx
+ON TBL.object_id = idx.object_id
+WHERE idx.object_id IS NULL
+
+/*
+Inquiry_Action
+TAX
+OrderInquiry_Action
+EMPLOYEE
+Dept_Tables
+salary
+Dept_Branch
+Dept_Position
+University_Ranking
+Ship2Warehouse
+EMP_payroll
+VENDOR
+Employee_Position
+PRODUCT
+PROMOTION
+Dependents
+Warehouse
+ship_method
+Emp_Status
+return_category
+INQUIRY_Category
+ORDERS
+regions
+BRANCH
+List_Tables
+INQUIRY
+Training
+Company
+state_capital
+Certificate
+Roles
+Dept_Mgr
+Institution
+Skill_Category
+Dept_Emp
+Minor
+Major
+Internal_EMP_Training
+Education_Type
+employement_status
+position
+External_EMP_Training
+payroll
+Prod_Condition
+External_EMP_Certification
+Branch_Size
+Relationship
+Skill
+EMP_Skill
+Department
+User_Info
+Return2Vendor
+EMP_Education
+Vndor_PROMOTION
+Prod_Promotion
+RETURNPROD_Condition
+VENDORPRICE
+Emp_salary
+Sales_commission
+Vendor_QTYDISCOUNT
+QTYDISCOUNT
+ORDERLINE
+PRODVENDOR
+User_Role
+prod_warehouse
+RETURNPROD
+PRODUCTSET
+Order_Inquiry
+backorder
+region_state
+Return_Sales_Commission
+CUSTOMER
+*/
+
+/*20. For every database, rank them according to number of indexes have created*/
+
+select Index_ID, RANK()OVER (ORDER BY Index_ID DESC) as RANK
+from (select COUNT (*) AS  Index_ID from [Zeota].sys.indexes 
+union all 
+select COUNT (*) AS  Index_ID from [SP].sys.indexes
+union all 
+select COUNT (*) AS  Index_ID from [PROP].sys.indexes) IDX 
+
+/*Index_ID	RANK
+234	1
+170	2
+168	3*/

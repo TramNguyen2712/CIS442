@@ -1,0 +1,25 @@
+Team 3
+Samip, Paul, Hilina, Tram
+
+Use cases for Marketing(Sales and Vendor marketing) database:
+
+1. To keep track of sales and vendor information.
+2. To make payment process smooth and keep track of it for future references.
+3. To Keep track of delivery and shipping of items of any order.
+4. By using product id number, vendor will be able to look for quantity discount.
+5. Vendor will also be able to keep track of items running low and order accordingly.
+6. To look up start and end date using production promotion id number.
+7. To ensure proper delivery of items within the delivery deadline.
+8. To see the maximum or minimum quantity that can be order by a vendor using a product ID.
+9. To check the availability of any product within an order by vendor at any moment in time.
+10. To better understand customer need and predict customer lifetime value.
+11. To keep track of associated employee and their handling of orders.
+12. To run promotions on particular set of products.
+13. Vendors can keep track of orders that have been shipped.
+14. To enable customer to save an order and automate ordering process.
+15. Vendor will be able to control costs and ensure service delivery.
+16. To visualize and analyze prodution and customer data.
+17. For vendors to pinpoint and manage any risk associated with order deliveries.
+18. To assure proper return transactions between vendor and customers.
+19. To provide order status and confirmation numbers from vendor to customers.
+20. To maintain a positive and healthy business relationship between all involved parties.
